@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000', //  URL da FinanceAPI
+  baseURL: 'https://localhost:7230', //  URL da FinanceAPI
 })
 
 
