@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
 import Navbar from '../components/Navbar'
-
+import Toast from '../components/Toast'
 
 const emptyForm = {
   description: '',
@@ -19,6 +19,7 @@ function Transactions() {
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     fetchAll()
@@ -38,6 +39,10 @@ function Transactions() {
       setLoading(false)
     }
   }
+
+  function showToast(message, type = 'success') {
+  setToast({ message, type })
+}
 
   // Abre o modal para criar
   function handleNew() {
@@ -59,6 +64,8 @@ function Transactions() {
     setShowModal(true)
   }
 
+  
+
   // Cria ou atualiza conforme editingId
   async function handleSubmit(e) {
   e.preventDefault()
@@ -79,7 +86,7 @@ function Transactions() {
     setShowModal(false)
     fetchAll()
   } catch (err) {
-    alert('Erro ao salvar transação.')
+  showToast('Erro ao salvar transação.', 'error')
   }
 }
 
@@ -88,8 +95,10 @@ function Transactions() {
     try {
       await api.delete(`/api/transactions/${id}`)
       fetchAll()
+      showToast('Transação excluída.')
+      fetchAll()  
     } catch (err) {
-      alert('Erro ao excluir transação.')
+      showToast('Erro ao excluir transação.', 'error')
     }
   }
 
@@ -123,6 +132,14 @@ function Transactions() {
             + Nova transação
           </button>
         </div>
+
+        {toast && (
+          <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+          />
+        )}
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
@@ -180,7 +197,7 @@ function Transactions() {
           )}
         </div>
       </div>
-
+      
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">

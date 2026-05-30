@@ -13,11 +13,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Rotas públicas */}
+        
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Rotas protegidas */}
+        
         <Route path="/transactions" element={
           <ProtectedRoute><Transactions /></ProtectedRoute>
         } />
@@ -28,10 +28,12 @@ function App() {
           <ProtectedRoute><Reports /></ProtectedRoute>
         } />
 
-        {/* Redireciona a raiz conforme autenticação */}
+        
         <Route path="/" element={
           <Navigate to={token ? '/transactions' : '/login'} />
         } />
+
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   )
