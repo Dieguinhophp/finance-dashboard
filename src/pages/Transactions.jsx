@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
+import Navbar from '../components/Navbar'
 
-// Estado inicial do formulário — facilita resetar depois de salvar
+
 const emptyForm = {
   description: '',
   amount: '',
@@ -17,7 +18,7 @@ function Transactions() {
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState(emptyForm)
-  const [editingId, setEditingId] = useState(null) // null = criando, id = editando
+  const [editingId, setEditingId] = useState(null)
 
   useEffect(() => {
     fetchAll()
@@ -104,6 +105,11 @@ function Transactions() {
   )
 
   return (
+    <div className="min-h-screen bg-gray-50">
+    <Navbar />
+    <div className="p-8">
+      <div className="max-w-4xl mx-auto"></div>
+
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
 
@@ -141,7 +147,7 @@ function Transactions() {
                 {transactions.map((transaction) => (
                   <tr key={transaction.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 text-sm text-gray-800">{transaction.description}</td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{transaction.category?.name ?? '—'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-500">{transaction.categoryName || '—'}</td>
                     <td className="px-6 py-4 text-sm text-gray-500">
                       {new Date(transaction.date).toLocaleDateString('pt-BR')}
                     </td>
@@ -268,6 +274,10 @@ function Transactions() {
         </div>
       )}
     </div>
+
+    </div>
+    </div>
+  
   )
 }
 
