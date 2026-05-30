@@ -138,7 +138,7 @@ function Transactions() {
           message={toast.message}
           type={toast.type}
           onClose={() => setToast(null)}
-          />
+        />
         )}
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -169,11 +169,11 @@ function Transactions() {
                       {new Date(transaction.date).toLocaleDateString('pt-BR')}
                     </td>
                     <td className={`px-6 py-4 text-sm font-medium text-right ${
-                      transaction.amount >= 0 ? 'text-green-600' : 'text-red-500'
-                    }`}>
+                      transaction.type === 0 ? 'text-green-600' : 'text-red-500'}`}>
+                      {transaction.type === 1 ? '- ' : '+ '}
                       {transaction.amount.toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL'
+                      style: 'currency',
+                      currency: 'BRL'
                       })}
                     </td>
                     <td className="px-6 py-4 text-right">
